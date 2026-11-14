@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f7f4ef">
+<title>向内而生｜35个认识自己的问题</title>
+<style>
+:root{
+  --bg:#f7f4ef;--paper:rgba(255,255,255,.78);--ink:#34342f;--muted:#85847d;
+  --line:rgba(75,72,62,.12);--sage:#9aa995;--sage-dark:#657965;
+  --rose:#d8aaa0;--lav:#b9b2cf;--gold:#c7aa78;--shadow:0 24px 70px rgba(73,67,54,.09);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;min-height:100vh;overflow-x:hidden}
+body:before,body:after{content:"";position:fixed;z-index:-1;border-radius:50%;filter:blur(2px);pointer-events:none}
+body:before{width:460px;height:460px;top:-210px;right:-130px;background:radial-gradient(circle,rgba(216,170,160,.22),transparent 68%)}
+body:after{width:520px;height:520px;bottom:-260px;left:-190px;background:radial-gradient(circle,rgba(154,169,149,.22),transparent 68%)}
+button{font:inherit}
+.shell{width:min(100% - 40px,900px);margin:0 auto;padding:28px 0 70px}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:46px}
+.brand{display:flex;align-items:center;gap:11px;font-size:13px;letter-spacing:.18em;color:#66675f}
+.brand-mark{width:30px;height:30px;border:1px solid rgba(101,121,101,.42);border-radius:50%;display:grid;place-items:center;color:var(--sage-dark);font-family:Georgia,serif;font-size:16px}
+.top-note{font-size:11px;letter-spacing:.12em;color:#a09d94}
+.panel{background:var(--paper);border:1px solid rgba(255,255,255,.9);border-radius:28px;box-shadow:var(--shadow);backdrop-filter:blur(18px)}
+.hero{padding:66px 64px 58px;text-align:center;position:relative;overflow:hidden}
+.eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--sage-dark);margin-bottom:23px}
+.hero h1{font-family:"Songti SC","STSong","Noto Serif SC",serif;font-weight:400;font-size:clamp(34px,6vw,58px);letter-spacing:.08em;line-height:1.28;margin:0 0 19px}
+.hero h1 span{color:var(--sage-dark)}
+.subtitle{font-family:"Songti SC","STSong",serif;color:#77766e;font-size:17px;letter-spacing:.08em}
+.hero-desc{max-width:540px;margin:27px auto 0;color:#89877f;font-size:13px;line-height:2.05}
+.orbit{width:130px;height:130px;border:1px solid rgba(154,169,149,.35);border-radius:50%;margin:34px auto 30px;display:grid;place-items:center;position:relative}
+.orbit:before,.orbit:after{content:"";position:absolute;border:1px solid rgba(216,170,160,.36);border-radius:50%;inset:12px;transform:rotate(35deg) scaleX(.65)}
+.orbit:after{inset:24px;transform:rotate(-35deg) scaleX(.72)}
+.orbit span{font-family:Georgia,serif;font-size:36px;color:var(--sage-dark)}
+.primary{border:0;border-radius:999px;padding:16px 38px;background:#687d68;color:white;letter-spacing:.12em;font-size:13px;cursor:pointer;box-shadow:0 9px 24px rgba(104,125,104,.2);transition:.25s}
+.primary:hover{transform:translateY(-2px);background:#566d57;box-shadow:0 13px 28px rgba(104,125,104,.26)}
+.micro{font-size:11px;color:#aaa69d;margin-top:18px;letter-spacing:.08em}
+.intro-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.intro-item{padding:19px 15px;text-align:center;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.43)}
+.intro-item b{display:block;font-family:Georgia,serif;font-size:20px;font-weight:400;color:var(--sage-dark);margin-bottom:7px}
+.intro-item span{font-size:11px;color:#96938a;letter-spacing:.05em}
+.quiz{display:none;padding:34px 42px 40px}
+.quiz.active{display:block}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.kicker{font-size:11px;letter-spacing:.18em;color:var(--sage-dark)}
+.counter{font-family:Georgia,serif;font-size:14px;color:#8e8b82}
+.progress{height:3px;background:#e9e6df;border-radius:10px;overflow:hidden;margin-bottom:42px}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--sage),var(--rose));transition:width .35s ease}
+.question-no{font-family:Georgia,serif;color:#c0b6a7;font-size:14px;letter-spacing:.1em;margin-bottom:15px}
+.question{font-family:"Songti SC","STSong","Noto Serif SC",serif;font-size:clamp(22px,3.5vw,30px);font-weight:400;line-height:1.55;letter-spacing:.04em;margin:0 0 12px}
+.question-hint{font-size:12px;color:#a19e95;margin-bottom:30px}
+.options{display:grid;gap:12px}
+.option{width:100%;display:flex;align-items:center;gap:17px;text-align:left;padding:17px 19px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.58);color:#55554f;cursor:pointer;transition:.2s;min-height:66px}
+.option:hover{border-color:rgba(104,125,104,.5);background:#fff;transform:translateX(3px)}
+.option.selected{border-color:var(--sage-dark);background:rgba(154,169,149,.13);box-shadow:inset 0 0 0 1px rgba(101,121,101,.15)}
+.letter{flex:0 0 30px;height:30px;border:1px solid #dedbd2;border-radius:50%;display:grid;place-items:center;font-family:Georgia,serif;font-size:12px;color:#8b8a80;transition:.2s}
+.option.selected .letter{background:var(--sage-dark);border-color:var(--sage-dark);color:white}
+.option-text{font-size:14px;line-height:1.65}
+.quiz-actions{display:flex;justify-content:space-between;align-items:center;margin-top:30px}
+.text-btn{border:0;background:transparent;color:#99968d;font-size:12px;cursor:pointer;padding:10px 0}
+.text-btn:disabled{opacity:.25;cursor:default}
+.next-btn{border:0;border-radius:999px;background:#687d68;color:white;padding:13px 29px;font-size:12px;letter-spacing:.12em;cursor:pointer;transition:.2s}
+.next-btn:disabled{background:#d4d2ca;cursor:not-allowed}
+.result{display:none;padding:48px 54px}
+.result.active{display:block}
+.result-top{text-align:center}
+.result-tag{font-size:11px;letter-spacing:.24em;color:var(--sage-dark)}
+.result-symbol{width:92px;height:92px;border-radius:50%;margin:24px auto 20px;display:grid;place-items:center;background:linear-gradient(145deg,rgba(154,169,149,.2),rgba(216,170,160,.18));border:1px solid rgba(154,169,149,.3);font-family:Georgia,serif;font-size:37px;color:var(--sage-dark)}
+.result h2{font-family:"Songti SC","STSong",serif;font-size:34px;font-weight:400;letter-spacing:.1em;margin:0 0 12px}
+.result-sub{font-size:13px;color:#89877f;letter-spacing:.08em}
+.result-quote{max-width:560px;margin:28px auto 34px;font-family:"Songti SC","STSong",serif;font-size:17px;line-height:2;color:#66675f;text-align:center}
+.result-body{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:30px 0}
+.result-card{border:1px solid var(--line);border-radius:18px;padding:22px;background:rgba(255,255,255,.5)}
+.result-card h3{font-size:12px;letter-spacing:.12em;font-weight:500;color:var(--sage-dark);margin:0 0 12px}
+.result-card p{font-size:13px;line-height:1.9;color:#77766e;margin:0}
+.score-area{border-top:1px solid var(--line);padding-top:25px;margin-top:10px}
+.score-title{font-size:12px;color:#858278;letter-spacing:.12em;margin-bottom:18px}
+.score-row{display:grid;grid-template-columns:95px 1fr 34px;gap:12px;align-items:center;margin:13px 0;font-size:12px;color:#77766e}
+.track{height:6px;border-radius:8px;background:#ebe8e1;overflow:hidden}
+.track span{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,#9aa995,#d8aaa0)}
+.score-num{text-align:right;font-family:Georgia,serif;color:#9a978e}
+.result-foot{margin-top:28px;padding:19px 22px;border-radius:16px;background:rgba(216,170,160,.11);font-family:"Songti SC","STSong",serif;font-size:13px;line-height:1.9;color:#81776f;text-align:center}
+.result-actions{display:flex;justify-content:center;gap:12px;margin-top:28px;flex-wrap:wrap}
+.secondary{border:1px solid #c9c7bd;background:transparent;color:#77766e;border-radius:999px;padding:13px 25px;font-size:12px;cursor:pointer}
+.disclaimer{text-align:center;color:#aaa69d;font-size:10px;line-height:1.8;margin:28px auto 0;max-width:600px}
+.footer{text-align:center;color:#aaa69d;font-size:10px;letter-spacing:.14em;margin-top:26px}
+@media(max-width:650px){
+ .shell{width:min(100% - 24px,900px);padding-top:18px}
+ .topbar{margin-bottom:25px}.top-note{display:none}
+ .hero{padding:48px 23px 40px;border-radius:22px}
+ .hero-desc{font-size:12px}.intro-grid{gap:7px}.intro-item{padding:15px 7px}.intro-item b{font-size:17px}.intro-item span{font-size:10px}
+ .quiz{padding:25px 19px 28px;border-radius:22px}.progress{margin-bottom:32px}
+ .option{padding:14px 13px;gap:12px;min-height:62px}.option-text{font-size:13px}
+ .result{padding:36px 20px;border-radius:22px}.result-body{grid-template-columns:1fr}.result h2{font-size:29px}
+ .score-row{grid-template-columns:82px 1fr 28px;gap:8px}
+}
+</style>
+</head>
+<body>
+<main class="shell">
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">向</span><span>向内而生 · SELF DISCOVERY</span></div>
+    <div class="top-note">A GENTLE JOURNEY TO YOURSELF</div>
+  </header>
+
+  <section class="panel hero" id="welcome">
+    <div class="eyebrow">PROUST-INSPIRED QUESTIONNAIRE</div>
+    <h1>认识自己，<span>从此刻开始。</span></h1>
+    <div class="subtitle">35 个问题 · 一场温柔的自我探索</div>
+    <p class="hero-desc">关于幸福、恐惧、爱、选择与人生。<br>不必寻找正确答案，只需诚实地选择那个最接近此刻内心的选项。<br>慢一点也没关系，答案会带你看见自己。</p>
+    <div class="orbit"><span>♡</span></div>
+    <button class="primary" id="startBtn">开始认识自己　→</button>
+    <div class="micro">约需 5–8 分钟 · 共 35 题 · 无需输入文字</div>
+    <div class="intro-grid">
+      <div class="intro-item"><b>01</b><span>没有标准答案</span></div>
+      <div class="intro-item"><b>02</b><span>跟随真实感受</span></div>
+      <div class="intro-item"><b>03</b><span>看见内在倾向</span></div>
+    </div>
+  </section>
+
+  <section class="panel quiz" id="quiz">
+    <div class="quiz-head"><span class="kicker">A MOMENT WITH YOURSELF</span><span class="counter" id="counter">01 / 35</span></div>
+    <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="question-no" id="questionNo">QUESTION 01</div>
+    <h2 class="question" id="questionText"></h2>
+    <div class="question-hint">选择最接近你真实想法的一项，不必纠结太久。</div>
+    <div class="options" id="options"></div>
+    <div class="quiz-actions">
+      <button class="text-btn" id="prevBtn">← 上一题</button>
+      <button class="next-btn" id="nextBtn" disabled>下一题 →</button>
+    </div>
+  </section>
+
+  <section class="panel result" id="result">
+    <div class="result-top">
+      <div class="result-tag">YOUR INNER LANDSCAPE</div>
+      <div class="result-symbol" id="resultSymbol">✧</div>
+      <h2 id="resultName"></h2>
+      <div class="result-sub" id="resultSubtitle"></div>
+      <p class="result-quote" id="resultQuote"></p>
+    </div>
+    <div class="result-body">
+      <div class="result-card"><h3>你身上的光</h3><p id="strength"></p></div>
+      <div class="result-card"><h3>你可能忽略的自己</h3><p id="blindspot"></p></div>
+      <div class="result-card"><h3>关系中的你</h3><p id="relationship"></p></div>
+      <div class="result-card"><h3>给此刻的你</h3><p id="advice"></p></div>
+    </div>
+    <div class="score-area">
+      <div class="score-title">你的内在倾向分布 <span style="font-size:10px;color:#aaa;letter-spacing:0">（仅呈现本次选择的相对倾向）</span></div>
+      <div id="scoreBars"></div>
+    </div>
+    <div class="result-foot" id="closing"></div>
+    <div class="result-actions">
+      <button class="primary" id="restartBtn">重新探索</button>
+      <button class="secondary" id="saveBtn">打印 / 保存结果</button>
+    </div>
+    <p class="disclaimer">本测试由普鲁斯特问卷主题延展而来，属于自我觉察与性格倾向探索，不是临床心理测量或经过标准化验证的心理诊断。人的性格丰富而流动，结果仅代表你此刻的选择。</p>
+  </section>
+  <div class="footer">TAKE YOUR TIME · BE KIND TO YOURSELF</div>
+</main>
+<script>
+const types = {
+  free:{name:"自由探索者",subtitle:"心里有旷野，也愿意为未知留一扇门",symbol:"☼",quote:"你不太愿意把人生交给既定答案。对你而言，活着不仅是抵达某个地方，更是一路上不断发现新的可能。",strength:"你有好奇心、独立意识和开放的视角。面对变化时，你往往能看见别人忽略的机会，也愿意为真正想要的生活迈出一步。",blindspot:"你可能容易厌倦重复，也会在选择太多时迟迟不愿落定。自由并不意味着永远不做决定，有时认真选择也是一种自由。",relationship:"你珍惜彼此的空间，喜欢坦诚、有趣、能一起成长的关系。被理解比被安排更重要。",advice:"给自己一点探索的余地，也给重要的事情一点持续的时间。不是每一条路都要立刻看到终点。",closing:"愿你始终保有出发的勇气，也拥有在某个地方安心停留的能力。"},
+  gentle:{name:"温柔共情者",subtitle:"敏感而丰盛，愿意认真感受世界",symbol:"❀",quote:"你能感受到许多细微的情绪，也常常在意别人没有说出口的话。你的温柔不是软弱，而是一种认真对待生命的方式。",strength:"你善于倾听、体察和连接，能够为关系带来温度。你重视情感的真实，也愿意在别人需要时给予支持。",blindspot:"你有时会把别人的感受放在自己前面，习惯理解别人，却忘了表达自己的需要。善良不必以委屈自己为代价。",relationship:"你看重回应、信任与细节。你希望关系里有温度，也需要对方尊重你的感受，而不是把你的体谅当作理所当然。",advice:"试着把照顾自己的感受，也当成一件值得认真完成的事。你不需要一直懂事，才值得被爱。",closing:"愿你的温柔有方向、有边界，也能稳稳地回到自己身上。"},
+  rational:{name:"清醒秩序者",subtitle:"在纷繁世界里，寻找清晰与确定",symbol:"◇",quote:"你倾向于先理解，再行动。清晰、可靠和有秩序的生活，会让你感到踏实。你相信认真思考能够帮助自己走得更稳。",strength:"你理性、审慎、有责任感，擅长分析问题并把复杂事情梳理清楚。关键时刻，你往往能保持冷静，做出相对稳妥的判断。",blindspot:"你可能会过度追求确定性，担心犯错而迟迟不开始。并非所有重要的事都能先想明白，允许自己边走边修正。",relationship:"你重视承诺、尊重和稳定的沟通。比起华丽表达，你更相信长期行动带来的安全感。",advice:"不必把每一种情绪都解释清楚，也不必把每一步都规划完美。偶尔放松控制，生活也会给你惊喜。",closing:"愿你保有清醒，也允许生活有一点不按计划发生的美好。"},
+  creative:{name:"热烈创造者",subtitle:"有表达的火花，也有把想法变成现实的冲动",symbol:"✦",quote:"你不满足于只是旁观生活。你想表达、创造、尝试，让内心的想法在现实里留下痕迹。热情是你与世界连接的方式。",strength:"你有感染力、想象力和行动冲劲，容易被有意义的目标点燃。你愿意表达观点，也有把平凡事物变得生动的能力。",blindspot:"热情来得快时，也可能让你同时开启太多事情，或在反馈不如预期时感到失落。给灵感配上一点耐心，它会走得更远。",relationship:"你喜欢真诚、鲜活、有来有往的互动。你需要被看见，也愿意为重要的人和事投入热情。",advice:"不必每一次努力都得到掌声。持续做那些真正打动你的事，时间会替你留下作品与答案。",closing:"愿你不熄灭心里的火，也记得给自己留一处安静充电的地方。"},
+  resilient:{name:"坚韧成长者",subtitle:"经历过起伏，仍愿意认真向前",symbol:"❋",quote:"你相信人可以在经历中慢慢长出力量。你未必总是轻松，但往往愿意承担、调整，然后继续向前。",strength:"你有韧性、责任心和复原能力。面对困难时，你愿意寻找办法，而不是轻易放弃。你对承诺和长期价值有自己的坚持。",blindspot:"你可能习惯把坚强当成默认状态，不太愿意示弱或求助。一直撑着并不等于没有疲惫，休息也是成长的一部分。",relationship:"你重视可靠、忠诚和共同承担。你不一定擅长说很多漂亮的话，但会用行动表达在乎。",advice:"允许自己有脆弱、停顿和重新开始的时候。你不需要靠不断证明自己，来确认自己的价值。",closing:"愿你继续坚定，也愿你知道，偶尔停下来并不会让你失去已经走过的路。"}
+};
+
+const questions = [
+["你认为最完美的幸福是怎样的？",[
+["拥有选择生活方式的自由，不被定义。","free"],["有人懂我，身边有爱与温暖。","gentle"],["生活安稳、有秩序，重要的事都在掌握中。","rational"],["每天都有热爱与新鲜事，能创造想要的生活。","creative"]]],
+["你最大的恐惧是什么？",[
+["被困在一眼望到头、无法改变的生活里。","free"],["失去重要的人，或不被真正理解。","gentle"],["失控、犯下无法挽回的错误。","rational"],["热情消失，最终一事无成。","creative"]]],
+["你最想调整自己的哪种特质？",[
+["有时太容易分心，难以长期停留。","free"],["太在意别人，容易忽略自己。","gentle"],["想得太多，行动前反复权衡。","rational"],["容易冲动，热情过后缺少耐心。","creative"]]],
+["你最难接受别人怎样的特点？",[
+["控制欲强，不尊重他人的选择。","free"],["冷漠，不顾及他人的感受。","gentle"],["不守信用，做事没有原则。","rational"],["没有热情，拒绝尝试新事物。","creative"]]],
+["你最欣赏一个人身上的什么？",[
+["独立、有主见，敢于走自己的路。","free"],["善良、真诚，能体谅他人。","gentle"],["专业、可靠，说到做到。","rational"],["有创造力，敢想也敢做。","creative"]]],
+["你最大的奢侈是什么？",[
+["随时出发，拥有不被打扰的时间。","free"],["和喜欢的人慢慢吃饭、聊天。","gentle"],["拥有充足的安全感与从容。","rational"],["把时间花在热爱的创作和体验上。","creative"]]],
+["你目前的心境更接近哪一种？",[
+["想打开新的可能，重新探索方向。","free"],["渴望被理解，也想好好安顿情绪。","gentle"],["希望理清现状，让生活回到正轨。","rational"],["有很多想法，期待一个新的开始。","creative"]]],
+["你认为哪种品质有时被过高评价？",[
+["一味服从所谓的稳定。","free"],["无底线地牺牲自己成全别人。","gentle"],["只讲规则，却不看具体情境。","rational"],["只追求外在成功和热闹。","creative"]]],
+["什么情况下你更可能选择不说实话？",[
+["为了保留自己的空间，不解释所有选择。","free"],["为了避免伤害别人，先照顾对方感受。","gentle"],["信息不完整时，我会选择暂时不表态。","rational"],["为了保护创作、计划或重要目标不被干扰。","creative"]]],
+["你对自己哪方面最容易感到不满意？",[
+["有时不够安定，难以长期坚持。","free"],["太敏感，容易被情绪影响。","gentle"],["过于谨慎，偶尔显得拘谨。","rational"],["表达太直接，容易显得急切。","creative"]]],
+["你最难与哪类人相处？",[
+["总想替别人做决定的人。","free"],["缺乏同理心、只顾自己的人。","gentle"],["反复无常、不负责任的人。","rational"],["消极否定、总给热情泼冷水的人。","creative"]]],
+["你最欣赏一个人身上的力量是什么？",[
+["独立与勇敢。","free"],["温柔与包容。","gentle"],["理智与担当。","rational"],["热情与创造力。","creative"]]],
+["你更容易被哪种气质打动？",[
+["洒脱、有边界、不随波逐流。","free"],["温暖、细腻、让人安心。","gentle"],["沉稳、诚恳、值得信赖。","rational"],["鲜活、有趣、充满生命力。","creative"]]],
+["你最常挂在嘴边的话更接近哪句？",[
+["“去看看，还有别的可能。”","free"],["“你还好吗？我在听。”","gentle"],["“先把事情理清楚。”","rational"],["“试试看，说不定可以。”","creative"]]],
+["你这一生中最伟大的爱是什么？",[
+["对自由、世界与未知的热爱。","free"],["对家人、爱人和生命的深情。","gentle"],["对责任、信念与长期承诺的坚持。","rational"],["对创造、理想与热爱之事的投入。","creative"]]],
+["何时何地让你感觉最快乐？",[
+["独自旅行，在陌生城市自由漫步。","free"],["和在乎的人相聚，被温柔包围。","gentle"],["事情妥善完成，生活平静有序。","rational"],["沉浸在喜欢的事里，灵感不断涌现。","creative"]]],
+["你最想拥有哪种才能？",[
+["快速适应任何环境，随时重新开始。","free"],["读懂情绪，让人与人更好地连接。","gentle"],["洞察复杂问题，做出精准判断。","rational"],["把想象变成独特而有影响力的作品。","creative"]]],
+["如果能改变自己的一件事，你会选择？",[
+["更勇敢地走出熟悉的生活。","free"],["更坚定地表达自己的需求。","gentle"],["减少过度担忧，相信自己的判断。","rational"],["把想法落实，不再轻易半途而废。","creative"]]],
+["你认为自己最大的成就是什么？",[
+["始终没有放弃寻找真正想过的生活。","free"],["在重要关系里给予过真诚的爱。","gentle"],["靠自己的努力建立了可靠的生活。","rational"],["做成了曾经只存在于想象中的事。","creative"]]],
+["如果有转世，你希望成为怎样的存在？",[
+["一只候鸟，去往想去的远方。","free"],["一棵树，为经过的人提供荫凉。","gentle"],["一座灯塔，安静而稳定地守望。","rational"],["一颗星星，持续发光并点亮夜空。","creative"]]],
+["你最想住在哪里？",[
+["可以随时出发、靠近自然的地方。","free"],["有熟悉的人和烟火气的小城。","gentle"],["配套完善、安静舒适的社区。","rational"],["文化丰富、充满灵感与活力的城市。","creative"]]],
+["你最珍贵的财产是什么？",[
+["时间与选择权。","free"],["重要的人和共同的回忆。","gentle"],["知识、经验与自己建立的秩序。","rational"],["灵感、作品和创造的能力。","creative"]]],
+["你认为最深重的痛苦是什么？",[
+["失去自由，无法成为自己。","free"],["真心付出却没有得到回应。","gentle"],["努力失去意义，生活陷入失序。","rational"],["有能力却始终没有机会实现理想。","creative"]]],
+["你最向往的职业状态是什么？",[
+["自主度高，可以探索不同方向。","free"],["能帮助他人，建立有温度的连接。","gentle"],["专业清晰、稳定可靠，成果可衡量。","rational"],["能表达想法、创造价值并不断突破。","creative"]]],
+["你最显著的特点是什么？",[
+["独立、好奇，不喜欢被框住。","free"],["细腻、体贴，善于感受。","gentle"],["冷静、认真，做事有条理。","rational"],["热情、有想法，行动有感染力。","creative"]]],
+["你最看重朋友的什么品质？",[
+["尊重彼此的不同与自由。","free"],["真诚、体谅，愿意彼此倾听。","gentle"],["守信、靠谱，关键时刻靠得住。","rational"],["有趣、有热情，能一起体验生活。","creative"]]],
+["你最喜欢哪一类作品或作者？",[
+["探索世界、追问自由与自我的作品。","free"],["描写人心、爱与关系的作品。","gentle"],["逻辑严谨、洞察深刻的作品。","rational"],["想象大胆、表达鲜明的作品。","creative"]]],
+["你心目中的小说英雄更接近哪种人？",[
+["不循旧路，勇敢寻找自我。","free"],["在困境中仍然守护爱与善意。","gentle"],["坚守原则，用智慧解决难题。","rational"],["敢于冒险，用行动改变现实。","creative"]]],
+["你最认同哪种历史人物的精神？",[
+["探索未知、突破边界。","free"],["仁爱宽厚、关怀众人。","gentle"],["求真务实、理性担当。","rational"],["开创局面、推动改变。","creative"]]],
+["谁是你现实生活中的英雄？",[
+["敢于按照内心生活、不被定义的人。","free"],["默默付出、始终善待他人的人。","gentle"],["在平凡岗位上长期负责的人。","rational"],["把热爱坚持到底并影响他人的人。","creative"]]],
+["你最喜欢的名字或称呼，通常带给你什么感觉？",[
+["辽阔、轻盈，有远方的想象。","free"],["温暖、柔软，有亲近感。","gentle"],["简洁、坚定，有力量感。","rational"],["明亮、特别，有鲜明个性。","creative"]]],
+["你最不喜欢什么？",[
+["被限制、被安排，失去选择。","free"],["冷漠、疏离，缺少真心。","gentle"],["混乱、失信，缺少基本规则。","rational"],["重复、沉闷，看不到成长与变化。","creative"]]],
+["你最大的遗憾可能是什么？",[
+["曾经因为害怕而没有去远方看看。","free"],["有些爱与感谢，没有及时表达。","gentle"],["一些重要决定，没有更早认真面对。","rational"],["有些想法，始终停留在脑海里。","creative"]]],
+["你希望自己以怎样的方式走完人生？",[
+["带着好奇与自由，体验过广阔世界。","free"],["被爱包围，也把爱好好传递出去。","gentle"],["内心安宁，无愧于责任与选择。","rational"],["留下创造与影响，活得热烈而真实。","creative"]]],
+["你更认同哪一句人生信念？",[
+["人生不是标准答案，而是不断探索。","free"],["认真去爱，也认真善待自己。","gentle"],["把能做好的事做好，心中自有秩序。","rational"],["想做的事，就从今天开始创造。","creative"]]],
+["当你回望这一段人生，最希望确认什么？",[
+["我没有活成别人期待的样子。","free"],["我爱过，也被真诚地爱过。","gentle"],["我承担了选择，也一步步走得踏实。","rational"],["我没有辜负心里的热爱与可能。","creative"]]]
+];
+
+const letters=["A","B","C","D"];
+let current=0, answers=Array(questions.length).fill(null);
+const $=id=>document.getElementById(id);
+function renderQuestion(){
+ const q=questions[current];
+ $("counter").textContent=String(current+1).padStart(2,"0")+" / 35";
+ $("questionNo").textContent="QUESTION "+String(current+1).padStart(2,"0");
+ $("progressFill").style.width=((current)/questions.length*100)+"%";
+ $("questionText").textContent=q[0];
+ $("options").innerHTML="";
+ q[1].forEach((opt,i)=>{
+   const b=document.createElement("button");
+   b.className="option"+(answers[current]===i?" selected":"");
+   b.type="button";
+   b.innerHTML='<span class="letter">'+letters[i]+'</span><span class="option-text"></span>';
+   b.querySelector(".option-text").textContent=opt[0];
+   b.addEventListener("click",()=>{answers[current]=i;renderQuestion();});
+   $("options").appendChild(b);
+ });
+ $("prevBtn").disabled=current===0;
+ $("nextBtn").disabled=answers[current]===null;
+ $("nextBtn").textContent=current===questions.length-1?"查看我的结果　→":"下一题　→";
+}
+function showResult(){
+ const counts={free:0,gentle:0,rational:0,creative:0};
+ answers.forEach((a,i)=>{if(a!==null)counts[questions[i][1][a][1]]++;});
+ // 以本次选择最高分作为主倾向；并列时用固定优先级保证结果稳定。
+ const order=["free","gentle","rational","creative"];
+ const winner=order.reduce((best,k)=>counts[k]>counts[best]?k:best,order[0]);
+ const t=types[winner];
+ $("resultSymbol").textContent=t.symbol;
+ $("resultName").textContent=t.name;
+ $("resultSubtitle").textContent=t.subtitle;
+ $("resultQuote").textContent="“"+t.quote+"”";
+ $("strength").textContent=t.strength;
+ $("blindspot").textContent=t.blindspot;
+ $("relationship").textContent=t.relationship;
+ $("advice").textContent=t.advice;
+ $("closing").textContent=t.closing;
+ const labels={free:"自由探索",gentle:"温柔共情",rational:"清醒秩序",creative:"热烈创造"};
+ const max=Math.max(...Object.values(counts));
+ $("scoreBars").innerHTML="";
+ order.forEach(k=>{
+   const row=document.createElement("div");row.className="score-row";
+   const label=document.createElement("span");label.textContent=labels[k];
+   const track=document.createElement("div");track.className="track";
+   const fill=document.createElement("span");fill.style.width=(counts[k]/questions.length*100)+"%";track.appendChild(fill);
+   const num=document.createElement("span");num.className="score-num";num.textContent=counts[k];
+   row.append(label,track,num);$("scoreBars").appendChild(row);
+ });
+ $("quiz").classList.remove("active");$("welcome").style.display="none";$("result").classList.add("active");
+ $("progressFill").style.width="100%";window.scrollTo({top:0,behavior:"smooth"});
+}
+$("startBtn").addEventListener("click",()=>{$("welcome").style.display="none";$("quiz").classList.add("active");current=0;renderQuestion();window.scrollTo({top:0,behavior:"smooth"});});
+$("prevBtn").addEventListener("click",()=>{if(current>0){current--;renderQuestion();}});
+$("nextBtn").addEventListener("click",()=>{if(answers[current]===null)return;if(current<questions.length-1){current++;renderQuestion();}else showResult();});
+$("restartBtn").addEventListener("click",()=>{answers=Array(questions.length).fill(null);current=0;$("result").classList.remove("active");$("welcome").style.display="block";window.scrollTo({top:0,behavior:"smooth"});});
+$("saveBtn").addEventListener("click",()=>window.print());
+</script>
+<style>
+@media print{
+ body{background:white}.shell{width:100%;padding:0}.topbar,.footer,.result-actions,.disclaimer{display:none!important}
+ .panel{box-shadow:none;border:0;background:white}.result{display:block!important;padding:15px}
+ .result-body{break-inside:avoid}.result-card{break-inside:avoid}
+}
+</style>
+</body>
+</html>
