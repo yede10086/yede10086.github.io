@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#eef2ee">
+<title>MIFS · 心理内耗自我觉察测评</title>
+<style>
+:root{
+  --ink:#26352f;--muted:#78877e;--paper:#f5f7f3;--white:#fffefa;
+  --sage:#9aaf9d;--sage-dark:#607b68;--line:#e5ebe3;--gold:#c9ad79;
+  --shadow:0 18px 60px rgba(53,75,60,.08);--radius:24px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 10% 0%,#e7eee7 0,transparent 34%),linear-gradient(145deg,#f7f8f4,#edf2ed);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;line-height:1.7}
+button{font:inherit}
+.shell{max-width:920px;margin:0 auto;padding:30px 22px 70px}
+
+/* ===== 介绍页 ===== */
+.hero{position:relative;overflow:hidden;padding:48px 48px 42px;border:1px solid rgba(255,255,255,.8);border-radius:32px;background:linear-gradient(125deg,rgba(255,255,255,.94),rgba(235,242,234,.9));box-shadow:var(--shadow)}
+.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+.hero:before{width:260px;height:260px;right:-70px;top:-110px;background:radial-gradient(circle,#dce8dc 0,rgba(220,232,220,0) 70%)}
+.hero:after{width:190px;height:190px;right:100px;bottom:-145px;background:radial-gradient(circle,#e8ddc9 0,rgba(232,221,201,0) 70%)}
+.eyebrow{font-size:11px;letter-spacing:3px;color:var(--sage-dark);font-weight:700;text-transform:uppercase}
+h1{font-family:"Songti SC","STSong","Noto Serif SC",serif;font-weight:500;font-size:clamp(34px,6vw,54px);letter-spacing:2px;line-height:1.25;margin:16px 0 12px}
+.subtitle{font-size:16px;color:#66776c;max-width:580px;margin:0}
+.hero-foot{display:flex;gap:18px;flex-wrap:wrap;margin-top:30px;color:var(--muted);font-size:12px}
+.hero-foot span{display:flex;align-items:center;gap:7px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block}
+.intro{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;margin:18px 0}
+.panel{background:rgba(255,254,250,.88);border:1px solid #fff;border-radius:var(--radius);padding:24px;box-shadow:0 8px 30px rgba(53,75,60,.04)}
+.panel h2,.section-title{font-size:17px;font-weight:650;margin:0 0 12px}
+.panel p{font-size:13px;color:var(--muted);margin:0}
+.dimensions{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:16px}
+.dim{padding:12px 9px;border-radius:15px;background:#f1f5ef;text-align:center}
+.dim b{display:block;font-size:13px;color:#506b58;margin-bottom:2px}
+.dim small{font-size:10px;color:#87948a}
+.notice{font-size:12px!important;line-height:1.8}
+.scale{display:grid;gap:8px;margin-top:15px}
+.scale-row{display:flex;align-items:center;gap:9px;font-size:12px;color:#65756a}
+.scale-num{width:24px;height:24px;display:grid;place-items:center;border-radius:50%;background:#edf2eb;color:#536e5b;font-weight:700}
+.start-cta{text-align:center;margin:24px 0 8px}
+
+/* ===== 答题页 ===== */
+.startbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:0 2px 14px}
+.progress-wrap{flex:1}
+.progress-meta{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-bottom:8px}
+.progress{height:5px;background:#e3eae2;border-radius:9px;overflow:hidden}
+.progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#8da994,#c4b18d);transition:width .25s}
+
+#quiz{scroll-margin-top:16px}
+.question-stage{display:block}
+.question-stage.swap{animation:fadeSlide .34s ease both}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.question{background:var(--white);border:1px solid #edf0e9;border-radius:22px;padding:30px 30px 26px;box-shadow:0 8px 30px rgba(53,75,60,.05);transition:.2s}
+.question.answered{border-color:#d4e1d3}
+.qtop{display:flex;align-items:center;gap:11px;margin-bottom:16px}
+.qnum{width:30px;height:30px;flex:none;border-radius:11px;background:#edf3ec;color:#607b68;display:grid;place-items:center;font-size:12px;font-weight:700}
+.qdim{font-size:10px;letter-spacing:1px;color:#9a9f94;margin-left:auto}
+.qcount{font-size:11px;color:#a6b0a6;letter-spacing:.5px;font-variant-numeric:tabular-nums}
+.qtext{font-size:17px;font-weight:550;line-height:1.7}
+.options{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:22px}
+.option{border:1px solid #e7ece5;background:#fbfcf9;border-radius:13px;padding:13px 4px;color:#7a887d;font-size:11px;cursor:pointer;transition:.18s}
+.option strong{display:block;font-size:17px;font-weight:600;margin-bottom:3px;color:#60776a}
+.option:hover{border-color:#a9bea9;transform:translateY(-1px)}
+.option.selected{background:#eaf1e9;border-color:#91aa94;color:#4f6b56;box-shadow:inset 0 0 0 1px #91aa94}
+.option.selected strong{color:#42634b}
+.actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:22px 0 0;flex-wrap:wrap}
+.actions .helper{flex:1;min-width:150px;text-align:center}
+.btn{border:0;border-radius:999px;padding:13px 24px;cursor:pointer;font-weight:650;font-size:13px;transition:.2s;text-decoration:none;display:inline-block;text-align:center}
+.btn-primary{background:#617d68;color:white;box-shadow:0 8px 20px rgba(97,125,104,.2)}
+.btn-primary:hover{background:#506d58;transform:translateY(-1px)}
+.btn-secondary{background:#edf2eb;color:#627568}
+.btn-secondary:hover{background:#e3ebe2;transform:translateY(-1px)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.helper{font-size:12px;color:#9a9f94}
+.hidden{display:none!important}
+
+/* ===== 结果页 ===== */
+.result{margin-top:28px}
+.result-head{padding:34px;border-radius:28px;background:linear-gradient(130deg,#e8f0e7,#f5f3eb);border:1px solid white}
+.result-head .eyebrow{margin-bottom:8px}
+.result-head h2{font-family:"Songti SC","STSong",serif;font-weight:500;font-size:30px;margin:0 0 8px}
+.result-head p{margin:0;color:#6c7b70;font-size:13px}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin:14px 0}
+.score-card{background:var(--white);border:1px solid #edf0e9;border-radius:20px;padding:22px}
+.score-label{font-size:12px;color:var(--muted)}
+.big-score{font-family:Georgia,serif;font-size:46px;line-height:1.2;color:#58735f;margin:6px 0}
+.big-score small{font-family:inherit;font-size:15px;color:#9aa69b}
+.meter{height:7px;background:#edf1eb;border-radius:9px;overflow:hidden;margin:12px 0 8px}
+.meter i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#91ad96,#c7b48d)}
+.score-note{font-size:11px;color:#89958a}
+.dimension-results{display:grid;gap:12px;margin:14px 0}
+.dimension-card{background:var(--white);border:1px solid #edf0e9;border-radius:18px;padding:19px 21px}
+.d-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.d-head b{font-size:15px}
+.d-head strong{font-size:17px;color:#58735f}
+.d-desc{font-size:12px;color:#7e8b80;margin-top:7px}
+.advice{background:#fffefa;border:1px solid #edf0e9;border-radius:22px;padding:24px;margin-top:14px}
+.advice h3{font-size:16px;margin:0 0 10px}
+.advice p{font-size:13px;color:#68776c;margin:0 0 10px}
+.advice ul{padding-left:19px;margin:8px 0 0;color:#647469;font-size:13px}
+.advice li{margin:7px 0}
+.tip{background:#f1f5ef;border-radius:15px;padding:15px 17px;margin-top:14px;font-size:12px;color:#607366}
+.footer-note{text-align:center;font-size:11px;color:#a0a99f;margin-top:24px;line-height:1.8}
+.result-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+@media(max-width:650px){
+ .shell{padding:14px 13px 45px}.hero{padding:34px 24px 30px;border-radius:25px}
+ .intro{grid-template-columns:1fr}.dimensions{grid-template-columns:repeat(2,1fr)}
+ .question{padding:22px 18px 20px;border-radius:19px}.qtext{font-size:16px}
+ .options{grid-template-columns:1fr;gap:7px;margin-top:16px}
+ .option{display:flex;align-items:center;gap:11px;text-align:left;padding:12px 15px;font-size:13px}
+ .option strong{margin-bottom:0;font-size:15px;width:18px;text-align:center;flex:none}
+ .score-grid{grid-template-columns:1fr}.result-head{padding:26px 22px}
+ .actions{gap:9px}.actions .helper{order:-1;flex-basis:100%;text-align:left;margin-bottom:2px}
+ .actions .btn{flex:1;padding:13px 14px}
+}
+@media print{
+ body{background:white}.shell{max-width:100%;padding:0}
+ .hero,.panel,.score-card,.dimension-card,.advice,.result-head{box-shadow:none;break-inside:avoid}
+ .hero{padding:20px}
+ #introView,.startbar,.actions,#quiz{display:none!important}
+ #result{display:block!important}.footer-note{color:#666}
+}
+</style>
+</head>
+<body>
+<main class="shell">
+
+  <!-- ===== 介绍视图（单独一页） ===== -->
+  <div id="introView">
+    <header class="hero">
+      <div class="eyebrow">MIFS · Mindful Inner Friction Scale</div>
+      <h1>把心里的声音，<br>慢慢听清楚。</h1>
+      <p class="subtitle">一份关于心理内耗的自我觉察测评。看见那些反复消耗你的思绪，也看见可以重新选择的空间。</p>
+      <div class="hero-foot"><span><i class="dot"></i>21道自我觉察题</span><span><i class="dot"></i>约3—5分钟</span><span><i class="dot"></i>即时生成个人报告</span></div>
+    </header>
+
+    <section class="intro">
+      <div class="panel">
+        <h2>这份测评关注什么？</h2>
+        <p>我们从四个常见的心理消耗方向，观察你最近的思考与行为倾向。它不是给你贴标签，而是帮助你找到更值得照顾的地方。</p>
+        <div class="dimensions">
+          <div class="dim"><b>回避</b><small>面对挑战时退开</small></div>
+          <div class="dim"><b>沉思</b><small>反复回看过去</small></div>
+          <div class="dim"><b>敏感</b><small>在意评价与误解</small></div>
+          <div class="dim"><b>犹豫</b><small>担心风险与结果</small></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>作答方式</h2>
+        <p>请依据最近一个月的真实状态作答。没有标准答案，不必选择“应该成为的自己”，只需选择“真实的自己”。</p>
+        <div class="scale">
+          <div class="scale-row"><span class="scale-num">1</span>完全不符合</div>
+          <div class="scale-row"><span class="scale-num">2</span>不太符合</div>
+          <div class="scale-row"><span class="scale-num">3</span>一般</div>
+          <div class="scale-row"><span class="scale-num">4</span>比较符合</div>
+          <div class="scale-row"><span class="scale-num">5</span>非常符合</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="panel notice">
+      <b>温柔提醒</b><br>这是一份用于自我觉察与日常反思的非临床测评。分数反映的是你对题目的主观感受，不代表人格缺陷、心理疾病或固定不变的特质。请以理解自己为目的，而不是用分数评判自己。
+    </div>
+
+    <div class="start-cta">
+      <button class="btn btn-primary" id="startBtn" type="button">开始测评 →</button>
+    </div>
+  </div>
+
+  <!-- ===== 答题视图（单独一页） ===== -->
+  <section id="quiz" class="hidden">
+    <div class="startbar">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>你的觉察进度</span><span id="progressText">已完成 0 / 21</span></div>
+        <div class="progress"><i id="progressBar"></i></div>
+      </div>
+    </div>
+
+    <div class="question-stage" id="questionStage"></div>
+
+    <div class="actions">
+      <button class="btn btn-secondary" id="prevBtn" type="button">← 上一题</button>
+      <span class="helper" id="helper">请选择一个最符合你近期状态的选项。</span>
+      <button class="btn btn-primary" id="nextBtn" type="button">下一题 →</button>
+      <button class="btn btn-primary hidden" id="submitBtn" type="button">生成我的测评报告 ↗</button>
+    </div>
+  </section>
+
+  <!-- ===== 结果页 ===== -->
+  <section id="result" class="result hidden">
+    <div class="result-head">
+      <div class="eyebrow">YOUR PERSONAL REFLECTION</div>
+      <h2 id="resultTitle">你的内耗觉察报告</h2>
+      <p id="resultSummary"></p>
+    </div>
+    <div class="score-grid">
+      <div class="score-card">
+        <div class="score-label">参考内耗指数</div>
+        <div class="big-score"><span id="indexScore">0</span><small> / 100</small></div>
+        <div class="meter"><i id="indexMeter"></i></div>
+        <div class="score-note" id="levelText"></div>
+      </div>
+      <div class="score-card">
+        <div class="score-label">21题总分 · 总均分</div>
+        <div class="big-score"><span id="totalScore">0</span><small> / 105</small></div>
+        <div class="score-note">总均分：<b id="averageScore">0</b> / 5</div>
+        <div class="score-note" style="margin-top:7px">指数为均分线性换算，仅用于直观呈现，不是常模分数。</div>
+      </div>
+    </div>
+    <h3 class="section-title">四个维度 · 你的心理消耗地图</h3>
+    <div class="dimension-results" id="dimensionResults"></div>
+    <div class="advice" id="mainAdvice"></div>
+    <div class="advice">
+      <h3>给自己的一个小练习</h3>
+      <p>接下来七天，不需要立刻改变所有事情。每天花三分钟，写下这三个问题：</p>
+      <ul>
+        <li>今天，什么事情最消耗我的心力？</li>
+        <li>这件事里，哪些是我能控制的，哪些不是？</li>
+        <li>明天，我愿意为自己做的一个最小行动是什么？</li>
+      </ul>
+      <div class="tip">你不需要一下子变得勇敢、果断或不在意。先允许自己看见，再从一个很小的行动开始。</div>
+    </div>
+    <div class="result-actions">
+      <button class="btn btn-primary" onclick="window.print()">打印 / 保存报告</button>
+      <button class="btn btn-secondary" id="restartBtn">重新测评</button>
+    </div>
+    <div class="footer-note">MIFS 自我觉察版 · 请把结果当作一次温柔的自我观察，而非最终定义。<br>如果持续的情绪困扰已明显影响睡眠、工作、人际或日常生活，可以考虑向合格的心理专业人士寻求支持。</div>
+  </section>
+</main>
+<script>
+const items = [
+["回避","如果怀疑自己实现理想的能力，我会选择放弃。"],
+["回避","我宁愿选择平庸，也不愿去做有挑战性的事。"],
+["回避","为了避免与他人冲突，即使是本该属于我的东西，我也会放弃。"],
+["回避","强迫自己做事让我感到疲惫，所以我更倾向于顺其自然。"],
+["回避","努力不一定有回报，所以我常选择更轻松的生活方式。"],
+["回避","我觉得用心做事很累，所以能回避就回避。"],
+["沉思","独处时，我会反复咀嚼过去的错误和失足。"],
+["沉思","我常被“本可以做却没做”的事缠绕心头。"],
+["沉思","回想过去的事情或决定时，我仍会担心自己当时做得对不对。"],
+["沉思","我会反复思考自己过去的行为。"],
+["沉思","我常在脑海中反复回放过去的遗憾。"],
+["敏感","别人的看法一直对我有很大的影响。"],
+["敏感","被误解时，我会花费大量精力试图解释清楚。"],
+["敏感","拒绝别人时，我感到焦虑和紧张。"],
+["敏感","我害怕被别人误解。"],
+["敏感","我不敢表达自己的观点，怕被别人嘲笑。"],
+["犹豫","我常思考自己的行为未来可能产生的负面后果。"],
+["犹豫","开始一项任务或做决定前，我会反复权衡利弊。"],
+["犹豫","做决定前，我通常会挣扎很长时间。"],
+["犹豫","想到一个新想法是否正确时，我会感到焦虑。"],
+["犹豫","做一件事之前，我会反复评估相关风险。"]
+];
+const descriptions = {
+"回避":{short:"面对压力或挑战时，倾向于先退一步，以减少当下的不适。",high:"你可能会因为害怕失败、觉得太累，或不想发生冲突，而推迟行动、降低期待，甚至放弃原本在意的目标。",steps:["把目标缩小到“今天能完成的第一步”，先行动10分钟，不要求一次做到完美。","区分“我真的不想要”与“我只是害怕做不好”，不要把暂时的害怕当成最终答案。","练习温和但清楚地表达需求：先从一件低风险的小事开始说出自己的想法。"],gentle:"行动不必等到有信心才开始。有时，信心是在迈出第一步之后慢慢长出来的。"},
+"沉思":{short:"容易反复回看过去的经历、错误或遗憾。",high:"你可能希望通过不断复盘找到一个确定答案，但思考逐渐变成重复播放，让过去占据了本该留给当下的精力。",steps:["给复盘设一个边界：写下事实、学到的经验、下一次的做法，然后有意识地结束。","当同一个念头再次出现时，提醒自己：“这件事我已经思考过了，现在先回到眼前。”","把注意力从“如果当时……”转向“现在我还能做什么”，寻找一个当下可执行的动作。"],gentle:"过去的你，是在当时所拥有的经验和条件下做出了选择。你可以吸取经验，也可以停止惩罚当时的自己。"},
+"敏感":{short:"容易受到他人评价、误解或关系压力的影响。",high:"你可能很在意别人如何看待自己，在解释、拒绝或表达观点时消耗很多心力，容易把他人的反应理解为对自我价值的评价。",steps:["表达前先问自己：我真正想说的是什么？不必先猜测每个人会如何评价。","练习延迟解释：被误解时先停一下，判断是否真的需要解释、向谁解释、解释到什么程度。","从小事练习拒绝，例如“这次我不太方便”，不必为每个边界附上很长的理由。"],gentle:"你可以在乎别人，同时不把每个人的认可都当成自己的责任。被理解很珍贵，但不需要以耗尽自己为代价。"},
+"犹豫":{short:"做决定前会反复权衡，容易被不确定性和潜在风险牵住。",high:"你可能希望把风险想得足够全面再开始，但信息越搜集越多，反而越难决定。对“选错”的担忧可能挤压了尝试和调整的空间。",steps:["给普通决定设置时间上限，例如15分钟；时间到了就依据现有信息做出暂定选择。","把决定分成“可逆”和“不可逆”：可逆的小决定先试，不必用重大决策的标准对待。","提前定义止损条件和复盘时间，允许自己边做边修正，而不是要求开始前就确保正确。"],gentle:"很多选择不是一次定终身。你可以先做一个足够好的决定，再根据真实反馈调整方向。"}
+};
+const order = ["回避","沉思","敏感","犹豫"];
+const labels = {回避:"面对挑战与行动",沉思:"回看过去与反复思考",敏感:"他人评价与关系压力",犹豫:"决策与不确定性"};
+const scaleLabels = ["完全不符合","不太符合","一般","比较符合","非常符合"];
+const total = items.length;
+
+const answers = {};
+let current = 0;
+let locked = false;
+
+const stage = document.getElementById("questionStage");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitBtn = document.getElementById("submitBtn");
+const helper = document.getElementById("helper");
+const progressText = document.getElementById("progressText");
+const progressBar = document.getElementById("progressBar");
+
+/* ---------- 渲染单题 ---------- */
+function renderQuestion(idx, animate){
+  const it = items[idx];
+  const answered = answers[idx + 1];
+
+  const card = document.createElement("article");
+  card.className = "question" + (answered ? " answered" : "");
+  card.innerHTML =
+    '<div class="qtop">' +
+      '<span class="qnum">' + String(idx + 1).padStart(2, "0") + '</span>' +
+      '<span class="qdim">' + it[0] + '</span>' +
+      '<span class="qcount">' + (idx + 1) + ' / ' + total + '</span>' +
+    '</div>' +
+    '<div class="qtext">' + it[1] + '</div>' +
+    '<div class="options">' +
+      scaleLabels.map(function(label, j){
+        const v = j + 1;
+        const sel = answered === v ? " selected" : "";
+        return '<button class="option' + sel + '" type="button" data-q="' + (idx + 1) + '" data-v="' + v + '" aria-label="' + label + '"><strong>' + v + '</strong>' + label + '</button>';
+      }).join("") +
+    '</div>';
+
+  stage.innerHTML = "";
+  stage.appendChild(card);
+
+  if(animate !== false){
+    stage.classList.remove("swap");
+    void stage.offsetWidth;
+    stage.classList.add("swap");
+  }
+  updateNav();
+}
+
+/* ---------- 进度与导航 ---------- */
+function answeredCount(){
+  return Object.keys(answers).length;
+}
+function updateProgress(){
+  const n = answeredCount();
+  progressText.textContent = "已完成 " + n + " / " + total;
+  progressBar.style.width = (n / total * 100) + "%";
+}
+function updateNav(){
+  const isLast = current === total - 1;
+  const answeredCurrent = !!answers[current + 1];
+  const n = answeredCount();
+
+  prevBtn.disabled = current === 0;
+  nextBtn.classList.toggle("hidden", isLast);
+  submitBtn.classList.toggle("hidden", !isLast);
+  nextBtn.disabled = !answeredCurrent;
+  submitBtn.disabled = n !== total;
+
+  if(!answeredCurrent){
+    helper.textContent = isLast ? "选择后即可生成你的报告。" : "请选择一个最符合你近期状态的选项。";
+  }else if(isLast){
+    helper.textContent = n === total ? "已完成全部题目，可以生成你的报告。" : ("还有 " + (total - n) + " 题未完成，可点“上一题”回去补充。");
+  }else{
+    helper.textContent = "可以继续，也可以回上一题修改。";
+  }
+}
+
+function scrollToQuiz(){
+  const y = document.getElementById("quiz").getBoundingClientRect().top + window.scrollY - 14;
+  window.scrollTo({top: y, behavior: "smooth"});
+}
+function goNext(){
+  if(current >= total - 1) return;
+  current++;
+  renderQuestion(current);
+  scrollToQuiz();
+}
+function goPrev(){
+  if(current <= 0) return;
+  current--;
+  renderQuestion(current);
+  scrollToQuiz();
+}
+
+/* ---------- 选项点击 ---------- */
+stage.addEventListener("click", function(e){
+  const btn = e.target.closest(".option");
+  if(!btn || locked) return;
+
+  const q = Number(btn.dataset.q);
+  const v = Number(btn.dataset.v);
+  answers[q] = v;
+
+  const card = btn.closest(".question");
+  card.classList.add("answered");
+  card.querySelectorAll(".option").forEach(function(b){
+    b.classList.toggle("selected", Number(b.dataset.v) === v);
+  });
+
+  updateProgress();
+  updateNav();
+
+  if(current < total - 1){
+    locked = true;
+    setTimeout(function(){
+      locked = false;
+      goNext();
+    }, 260);
+  }
+});
+
+prevBtn.addEventListener("click", goPrev);
+nextBtn.addEventListener("click", goNext);
+
+/* ---------- 键盘操作 ---------- */
+document.addEventListener("keydown", function(e){
+  if(document.getElementById("quiz").classList.contains("hidden")) return;
+  if(!document.getElementById("result").classList.contains("hidden")) return;
+  if(e.key >= "1" && e.key <= "5"){
+    const btn = stage.querySelector('.option[data-v="' + e.key + '"]');
+    if(btn) btn.click();
+  }else if(e.key === "ArrowRight"){
+    if(!nextBtn.classList.contains("hidden") && !nextBtn.disabled) goNext();
+  }else if(e.key === "ArrowLeft"){
+    if(!prevBtn.disabled) goPrev();
+  }
+});
+
+/* ---------- 结果 ---------- */
+function level(index){
+  if(index <= 20) return ["轻度内耗","目前自评的心理消耗感相对较低。你可能较能把注意力放回当下，也能在多数情境中灵活调整。"];
+  if(index <= 40) return ["轻中度内耗","某些情境可能会带来额外的心理消耗，但通常仍有调整空间。可以先留意得分较高的维度。"];
+  if(index <= 60) return ["中度内耗","你可能在一些事情上花费了较多心理能量。建议识别最主要的消耗来源，从小范围改变开始。"];
+  if(index <= 80) return ["中高程度内耗","近期的思绪或关系压力可能占据了较多精力。请优先照顾休息与情绪，并尝试减少反复消耗。"];
+  return ["高程度内耗","你的作答显示近期主观心理消耗感较强。建议给自己更多支持，减少不必要的负担；若已影响日常生活，可考虑寻求专业帮助。"];
+}
+
+function renderResult(){
+  const sums = {回避:0, 沉思:0, 敏感:0, 犹豫:0};
+  items.forEach(function(it, i){
+    sums[it[0]] += answers[i + 1];
+  });
+  const sumTotal = Object.values(sums).reduce(function(a, b){ return a + b; }, 0);
+  const avg = sumTotal / total;
+  const index = Math.round((avg - 1) / 4 * 100);
+
+  const ranked = order.map(function(name){
+    return {name: name, score: sums[name], mean: sums[name] / (name === "回避" ? 6 : 5)};
+  }).sort(function(a, b){ return b.mean - a.mean; });
+
+  const lv = level(index);
+
+  document.getElementById("indexScore").textContent = index;
+  document.getElementById("indexMeter").style.width = index + "%";
+  document.getElementById("totalScore").textContent = sumTotal;
+  document.getElementById("averageScore").textContent = avg.toFixed(2);
+  document.getElementById("levelText").textContent = lv[0] + " · " + lv[1];
+  document.getElementById("resultTitle").textContent = lv[0] + "｜你的内耗觉察报告";
+
+  document.getElementById("resultSummary").textContent =
+    ranked[0].mean === ranked[1].mean
+      ? "你的" + ranked[0].name + "与" + ranked[1].name + "维度并列较高。它们可能是当前值得优先关注的心理消耗方向。"
+      : "目前得分较高的维度是「" + ranked[0].name + "」。这不代表你就是某一种固定类型，而是提示你可以从这个方向开始照顾自己。";
+
+  document.getElementById("dimensionResults").innerHTML = order.map(function(name){
+    const r = ranked.find(function(x){ return x.name === name; });
+    const max = name === "回避" ? 30 : 25;
+    const pct = (r.mean - 1) / 4 * 100;
+    return '<div class="dimension-card">' +
+      '<div class="d-head"><b>' + name + ' · ' + labels[name] + '</b>' +
+      '<strong>' + r.score + ' / ' + max + '　' + r.mean.toFixed(2) + '分</strong></div>' +
+      '<div class="meter"><i style="width:' + pct + '%"></i></div>' +
+      '<div class="d-desc">' + descriptions[name].short + '</div></div>';
+  }).join("");
+
+  const top = ranked[0];
+  const topNames = ranked.filter(function(x){ return top.mean - x.mean < 0.21; }).map(function(x){ return x.name; });
+
+  let adviceHtml = '<h3>你的主要消耗来源：' + topNames.join(" + ") + '</h3>' +
+    '<p>' + topNames.map(function(n){ return descriptions[n].high; }).join(" ") + '</p>';
+
+  topNames.forEach(function(name){
+    adviceHtml += '<div class="tip"><b>' + name + '｜可以尝试</b><ul>' +
+      descriptions[name].steps.map(function(s){ return "<li>" + s + "</li>"; }).join("") +
+      '</ul><p style="margin:10px 0 0">' + descriptions[name].gentle + '</p></div>';
+  });
+  document.getElementById("mainAdvice").innerHTML = adviceHtml;
+
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+  window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+submitBtn.addEventListener("click", renderResult);
+
+document.getElementById("restartBtn").addEventListener("click", function(){
+  Object.keys(answers).forEach(function(k){ delete answers[k]; });
+  current = 0;
+  document.getElementById("result").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  renderQuestion(0, false);
+  updateProgress();
+  window.scrollTo({top: 0, behavior: "smooth"});
+});
+
+/* ---------- 开始测评：进入独立答题页 ---------- */
+document.getElementById("startBtn").addEventListener("click", function(){
+  document.getElementById("introView").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  window.scrollTo({top: 0, behavior: "smooth"});
+});
+
+/* ---------- 启动 ---------- */
+renderQuestion(0, false);
+updateProgress();
+</script>
+</body>
+</html>
